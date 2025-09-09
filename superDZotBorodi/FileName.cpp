@@ -1,4 +1,4 @@
-// Для корректной работы с русской консолью в Windows
+// Р”Р»СЏ РєРѕСЂСЂРµРєС‚РЅРѕР№ СЂР°Р±РѕС‚С‹ СЃ СЂСѓСЃСЃРєРѕР№ РєРѕРЅСЃРѕР»СЊСЋ РІ Windows
 #ifdef _WIN32
 #include <Windows.h>
 #endif
@@ -11,16 +11,16 @@
 #include <atomic>
 #include <cmath>
 
-// Используем volatile, чтобы компилятор не "выкинул" наши вычисления
-// в ходе оптимизации, посчитав их бесполезными.
+// РСЃРїРѕР»СЊР·СѓРµРј volatile, С‡С‚РѕР±С‹ РєРѕРјРїРёР»СЏС‚РѕСЂ РЅРµ "РІС‹РєРёРЅСѓР»" РЅР°С€Рё РІС‹С‡РёСЃР»РµРЅРёСЏ
+// РІ С…РѕРґРµ РѕРїС‚РёРјРёР·Р°С†РёРё, РїРѕСЃС‡РёС‚Р°РІ РёС… Р±РµСЃРїРѕР»РµР·РЅС‹РјРё.
 struct ThreadData {
     volatile float a = 1.0f, b = 1.1f, c = 1.2f, d = 1.3f;
 };
 
-// Функция, которую будет выполнять каждый поток
+// Р¤СѓРЅРєС†РёСЏ, РєРѕС‚РѕСЂСѓСЋ Р±СѓРґРµС‚ РІС‹РїРѕР»РЅСЏС‚СЊ РєР°Р¶РґС‹Р№ РїРѕС‚РѕРє
 void benchmark_task(long long num_iterations_per_thread) {
     ThreadData data;
-    // В цикле 4 операции: 2 умножения и 2 сложения.
+    // Р’ С†РёРєР»Рµ 4 РѕРїРµСЂР°С†РёРё: 2 СѓРјРЅРѕР¶РµРЅРёСЏ Рё 2 СЃР»РѕР¶РµРЅРёСЏ.
     for (long long i = 0; i < num_iterations_per_thread; ++i) {
         data.a = data.a * data.b;
         data.c = data.c + data.d;
@@ -30,26 +30,26 @@ void benchmark_task(long long num_iterations_per_thread) {
 }
 
 int main() {
-    // Устанавливаем кодировку для консоли Windows
+    // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РєРѕРґРёСЂРѕРІРєСѓ РґР»СЏ РєРѕРЅСЃРѕР»Рё Windows
 #ifdef _WIN32
-    // Используем кодовую страницу 1251 для кириллицы в Windows
+    // РСЃРїРѕР»СЊР·СѓРµРј РєРѕРґРѕРІСѓСЋ СЃС‚СЂР°РЅРёС†Сѓ 1251 РґР»СЏ РєРёСЂРёР»Р»РёС†С‹ РІ Windows
     SetConsoleOutputCP(1251);
     SetConsoleCP(1251);
 #endif
 
-    // Определяем количество доступных логических ядер процессора
+    // РћРїСЂРµРґРµР»СЏРµРј РєРѕР»РёС‡РµСЃС‚РІРѕ РґРѕСЃС‚СѓРїРЅС‹С… Р»РѕРіРёС‡РµСЃРєРёС… СЏРґРµСЂ РїСЂРѕС†РµСЃСЃРѕСЂР°
     const unsigned int num_threads = std::thread::hardware_concurrency();
 
     const long long ops_per_iteration = 4;
     const long long total_iterations = 4000000000;
     const long long num_iterations_per_thread = total_iterations / num_threads;
 
-    std::cout << "Запуск многопоточного теста производительности..." << std::endl;
-    std::cout << "Задействовано ядер/потоков: " << num_threads << std::endl;
-    std::cout << "Итераций на поток: " << num_iterations_per_thread << std::endl;
+    std::cout << "Р—Р°РїСѓСЃРє РјРЅРѕРіРѕРїРѕС‚РѕС‡РЅРѕРіРѕ С‚РµСЃС‚Р° РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚Рё..." << std::endl;
+    std::cout << "Р—Р°РґРµР№СЃС‚РІРѕРІР°РЅРѕ СЏРґРµСЂ/РїРѕС‚РѕРєРѕРІ: " << num_threads << std::endl;
+    std::cout << "РС‚РµСЂР°С†РёР№ РЅР° РїРѕС‚РѕРє: " << num_iterations_per_thread << std::endl;
 
     long long total_ops = num_threads * num_iterations_per_thread * ops_per_iteration;
-    std::cout << "Общее количество операций: ~" << static_cast<double>(total_ops) / 1e9 << " миллиардов" << std::endl;
+    std::cout << "РћР±С‰РµРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РѕРїРµСЂР°С†РёР№: ~" << static_cast<double>(total_ops) / 1e9 << " РјРёР»Р»РёР°СЂРґРѕРІ" << std::endl;
 
     std::vector<std::thread> threads;
 
@@ -70,31 +70,31 @@ int main() {
 
     double flops = static_cast<double>(total_ops) / seconds;
 
-    // --- Расчет производительности ---
-    double gflops = flops / 1e9; // Гигафлопсы (10^9)
-    double giflops = flops / pow(2, 30); // Гибифлопсы (2^30)
+    // --- Р Р°СЃС‡РµС‚ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚Рё ---
+    double gflops = flops / 1e9; // Р“РёРіР°С„Р»РѕРїСЃС‹ (10^9)
+    double giflops = flops / pow(2, 30); // Р“РёР±РёС„Р»РѕРїСЃС‹ (2^30)
 
     std::cout.precision(2);
     std::cout << std::fixed;
     std::cout << "----------------------------------------" << std::endl;
-    std::cout << "Общее время выполнения: " << seconds << " секунд" << std::endl;
-    std::cout << "Производительность (GFLOPS, 10^9): " << gflops << std::endl;
-    std::cout << "Производительность (GiFLOPS, 2^30): " << giflops << std::endl;
+    std::cout << "РћР±С‰РµРµ РІСЂРµРјСЏ РІС‹РїРѕР»РЅРµРЅРёСЏ: " << seconds << " СЃРµРєСѓРЅРґ" << std::endl;
+    std::cout << "РџСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚СЊ (GFLOPS, 10^9): " << gflops << std::endl;
+    std::cout << "РџСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚СЊ (GiFLOPS, 2^30): " << giflops << std::endl;
     std::cout << "----------------------------------------" << std::endl;
 
-    // --- Расчет операций за год ---
+    // --- Р Р°СЃС‡РµС‚ РѕРїРµСЂР°С†РёР№ Р·Р° РіРѕРґ ---
     const long long seconds_in_a_year = 365LL * 24 * 60 * 60;
     long double ops_per_year = flops * seconds_in_a_year;
 
-    std::cout << "\nПри такой пиковой производительности компьютер может выполнить:" << std::endl;
+    std::cout << "\nРџСЂРё С‚Р°РєРѕР№ РїРёРєРѕРІРѕР№ РїСЂРѕРёР·РІРѕРґРёС‚РµР»СЊРЅРѕСЃС‚Рё РєРѕРјРїСЊСЋС‚РµСЂ РјРѕР¶РµС‚ РІС‹РїРѕР»РЅРёС‚СЊ:" << std::endl;
     std::cout.precision(4);
     std::cout << std::scientific;
-    std::cout << ops_per_year << " операций за год непрерывной работы." << std::endl;
+    std::cout << ops_per_year << " РѕРїРµСЂР°С†РёР№ Р·Р° РіРѕРґ РЅРµРїСЂРµСЂС‹РІРЅРѕР№ СЂР°Р±РѕС‚С‹." << std::endl;
 
     long double exa_ops_per_year = ops_per_year / 1e18;
     std::cout.precision(4);
     std::cout << std::fixed;
-    std::cout << "(Примерно " << exa_ops_per_year << " экса-операций в год)" << std::endl;
+    std::cout << "(РџСЂРёРјРµСЂРЅРѕ " << exa_ops_per_year << " СЌРєСЃР°-РѕРїРµСЂР°С†РёР№ РІ РіРѕРґ)" << std::endl;
 
     return 0;
 }
