@@ -1,27 +1,27 @@
 #include "complex.h"
 
 
-//Complex::Complex()
-//{
-//    this->real = 0.0;
-//    this->imaginary = 0.0;
-//}
-//
-//Complex::Complex(double d)
-//{
-//    this->real = d;
-//    this->imaginary = 0.0;
-//}
-
 Complex::Complex(double re, double im)
 {
     this->real = re;
     this->imaginary = im;
 }
 
-Complex::~Complex()
+Complex::Complex(const Complex& other)
 {
+    this->real = other.real;
+    this->imaginary = other.imaginary;
 }
+
+Complex::Complex(Complex&& other) noexcept
+{
+    this->real = other.real;
+    this->imaginary = other.imaginary;
+    other.real = 0;
+    other.imaginary = 0;
+}
+
+Complex::~Complex() {}
 
 double Complex::getReal() const
 {
@@ -36,11 +36,6 @@ double Complex::getImag() const
 double Complex::abs() const
 {
     return std::hypot(this->real, this->imaginary);
-}
-
-double Complex::arg() const
-{
-    return std::atan2(this->real, this->imaginary);
 }
 
 void Complex::setReal(double r)
