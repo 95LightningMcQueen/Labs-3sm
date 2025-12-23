@@ -15,6 +15,7 @@ public:
     Complex(double = 0, double = 0);
     Complex(const Complex& other);
     Complex(Complex&& other) noexcept;
+    Complex& operator=(Complex&& other) noexcept;
     ~Complex();
     double getReal() const;
     double getImag() const;
@@ -35,7 +36,13 @@ public:
     friend bool operator==(const Complex& a, const Complex& b);
     friend bool operator!=(const Complex& a, const Complex& b);
     friend std::ostream& operator<<(std::ostream& os, const Complex& c);
+    Complex& operator++(); //преф
+    Complex operator++(int); // постф
+    Complex& operator--(); // преф 
+    Complex operator--(int); // постф
+    friend Complex operator+(const Complex& a, const double num);
+    friend Complex operator+(double num, const Complex& a);
+    friend Complex operator-(const Complex& a, const double num);
+    friend Complex operator-(double num, const Complex& a);
 };
-
-
 #endif
