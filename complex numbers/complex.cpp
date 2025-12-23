@@ -153,3 +153,64 @@ std::ostream& operator<<(std::ostream& os, const Complex& c)
     }
     return os;
 }
+
+Complex& Complex::operator=(Complex&& other) noexcept
+{
+    if (this != &other)
+    {
+        this->real = other.real;
+        this->imaginary = other.imaginary;
+        other.real = 0;
+        other.imaginary = 0;
+    }
+    return *this;
+}
+
+
+Complex& Complex::operator++()
+{
+    this->real = this->real + 1;
+    return *this;
+}
+
+Complex Complex::operator++(int)
+{
+    Complex old = *this;
+    this->real = this->real + 1;
+    return old;
+}
+
+Complex& Complex::operator--()
+{
+    this->real = this->real - 1;
+    return *this;
+}
+
+Complex Complex::operator--(int)
+{
+    Complex old = *this;
+    this->real = this->real - 1;
+    return old;
+}
+
+Complex operator+(const Complex& a, double num)
+{
+    return Complex(a.real + num, a.imaginary);
+}
+
+Complex operator+(double num, const Complex& a)
+{
+    return Complex(a.real + num, a.imaginary);
+}
+
+Complex operator-(const Complex& a, double num)
+{
+    std::cout << "\n\nperviy minus vizvalsa\n";
+    return Complex(a.real - num, a.imaginary);
+}
+
+Complex operator-(double num, const Complex& a)
+{
+    std::cout << "\n\nvtoroy minus vizvalsa\n";
+    return Complex(num - a.real, -a.imaginary);
+}
