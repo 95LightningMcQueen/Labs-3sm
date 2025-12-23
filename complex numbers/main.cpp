@@ -53,5 +53,25 @@ int main()
         std::cerr << "Unexpected error: " << e.what() << '\n';
         return 1;
     }
+    Complex p(0.0, 1.0);
+    std::cout << "p = " << p;
+    std::cout << "\n++p = " << ++p;
+    std::cout << "\np++ = " << p++;
+    std::cout << "\np after p++ = " << p;
+    std::cout << "\n--p = " << --p;
+    std::cout << "\np-- = " << p--;
+    std::cout << "\np after p-- = " << p;
+    Complex l(2.0, 2.0);
+    std::cout << "\nl = " << l;
+    std::cout << "\nl + num (1.5) = " << l + 1.5;
+    std::cout << "\nl - num (2.5) = " << (l - 2.5);
+    Complex z(0.0, 3.0);
+    std::cout << "\nz = " << z;
+    std::cout << "\nnum (3.0) + z = " << 3.0 + z;
+    std::cout << "\nnum (5.0) - z = " << (5.0 - z);
+    
+    std::cout << '\n';
+    system("pause");
+
     return 0;
 }
